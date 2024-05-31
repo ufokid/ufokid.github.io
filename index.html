@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESELL AFILIADOS DONALD</title>
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: #03C6FC;
+            padding: 56px;
+            margin: 10px;
+            text-align: center;
+        }
+        .heading {
+            color: #232323;
+            font-size: 24px;
+        }
+        .button {
+            background-color: #03C6FC;
+            color: #232323;
+            padding: 20px 50px;
+            border-radius: 108px;
+            margin-top: 30px;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            padding: 40px;
+            background-color: #000000;
+            text-align: center;
+            color: #7A7A7A;
+            font-size: 12px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">Carregando...</div>
+    <div class="footer" id="footer">Carregando...</div>
+
+    <script>
+        fetch('pagina.json')
+            .then(response => response.json())
+            .then(data => {
+                const content = document.getElementById('content');
+                const footer = document.getElementById('footer');
+
+                // Processar o conteúdo principal
+                content.innerHTML = `
+                    <div class="container">
+                        <h1 class="heading">${data.content[0].elements[0].settings.title}</h1>
+                    </div>
+                    <div class="container" style="background: url(${data.content[1].settings.background_image.url}) no-repeat center center; background-size: cover;">
+                        <img src="${data.content[1].elements[0].elements[0].settings.image.url}" style="width: ${data.content[1].elements[0].elements[0].settings.width.size}%;">
+                        <h2 class="heading">${data.content[1].elements[0].elements[2].settings.title}</h2>
+                        <a href="${data.content[1].elements[0].elements[3].settings.link.url}" class="button">${data.content[1].elements[0].elements[3].settings.text}</a>
+                    </div>
+                `;
+
+                // Processar o conteúdo do rodapé
+                footer.innerHTML = `
+                    <img src="${data.content[2].elements[0].settings.image.url}" alt="Selo">
+                    <div>${data.content[2].elements[2].settings.editor}</div>
+                `;
+            })
+            .catch(error => {
+                console.error('Erro ao carregar o JSON:', error);
+                document.getElementById('content').textContent = 'Erro ao carregar o JSON.';
+                document.getElementById('footer').textContent = 'Erro ao carregar o JSON.';
+            });
+    </script>
+</body>
+  </html>
